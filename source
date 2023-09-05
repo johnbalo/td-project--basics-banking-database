@@ -1,0 +1,87 @@
+/**4. Create A Database And Name It E-Banking.**/
+Create database E_Banking
+
+
+/**2. Create Table For Customers With The Appropriate Data Types.**/
+create table Customers
+(
+	 CustomerID int Primary Key Identity(1,1),
+	 FirstName varchar(25) NOT NULL,
+	 LastName varchar(25) NOT NULL,
+	 DateOfBirth DateTime NOT NULL,
+	 Email  varchar(50) NOT NULL, 
+	 PhoneNumber varchar(25) NOT NULL,  
+	 Address varchar(25) NOT NULL,
+
+);
+
+/**4. Create Table For Loans With The Appropriate Data Types.**/
+CREATE TABLE [dbo].[Loans](
+	LoanID int primary key Identity(1,1),
+	CustomerID int ,
+	LoanType varchar(50) NOT NULL,
+	LoanAmount decimal(18, 2) NOT NULL,
+	InterestRate int NOT NULL,
+	LoanTerm int NOT NULL,
+	LoanStatus [nchar](10) NOT NULL,
+	);
+
+ALTER TABLE [dbo].[Loans]  WITH CHECK ADD  CONSTRAINT [FK_Loans_Customers] FOREIGN KEY([CustomerID])
+REFERENCES [dbo].[Customers] ([CustomerID])
+ON DELETE CASCADE
+
+ALTER TABLE [dbo].[Loans] CHECK CONSTRAINT [FK_Loans_Customers]
+
+
+/**5 .Populate The Tables With At Least 10 Sample Customer Records And 10 Sample Loan Records.
+Ensure That Customer IDs Are Associated With Their Respective Loans.**/
+Insert  into dbo.Customers values('Ayo','Obe','1983-06-20','Ayo.obe@gmail.com','07030707083','no 14 ilepe street ondo' );
+Insert  into dbo.Customers values('peter','Son','1980-01-30','Peter.son@gmail.com','07030707080','no 10 ogunpa street ondo' );
+Insert  into dbo.Customers values('sandra','Hike','1950-10-08','Sndra.hike@gmail.com','07030707089','no 12 oleja street Akure' );
+Insert  into dbo.Customers values('Joy','Williams','1998-04-26','joy.williams@gmail.com','07030707045','no 1 efon street ijebuode' );
+Insert  into dbo.Customers values('Efe','Joe','1990-05-17','Efe.joe@gmail.com','07030707010','no 12 ijiagba street ondo' );
+Insert  into dbo.Customers values('Gift','Marshal','1980-04-12','Marshal.gift@gmail.com','08130456789','no 5 iyadun street ondo' );
+Insert  into dbo.Customers values('Joel','Eric','2000-01-27','Joel.eric@gmail.com','07030456789','no 4 ode street Ekiti' );
+Insert  into dbo.Customers values('Sodiq','Oley','2002-06-14','Sodiq.oley@gmail.com','08130456900','no 9 bolade street ondo' );
+Insert  into dbo.Customers values('John','Peters','1970-05-20','john.peters@gmail.com','09030456789','no 10 popoola street lagos' );
+Insert  into dbo.Customers values('Hope','Victor','1997-02-01','Hope.victor@gmail.com','08133346789','no 18 bariga  ondo' );
+Insert  into dbo.Customers values('Peter','Bull','1988-12-02','peter.bull@gmail.com','08130458769','no 7 matama Abuja' );
+Insert  into dbo.Customers values('Vaat','Cherlly','1989-11-25','Vaat.cherlly@gmail.com','07089675443','no 30 kutuweyi kano' );
+
+ 
+
+insert into dbo.Loans values(5,'Personal Loan','90000',5,24,'Denied');
+insert into dbo.Loans values(7,'Personal Loan','80000',5,24,'Pending');
+insert into dbo.Loans values(11,'Personal Loan','20000',5,24,'Approved');
+insert into dbo.Loans values(6,'Personal Loan','700000',5,24,'Approved');
+insert into dbo.Loans values(3,'Personal Loan','100000',5,24,'Pending');
+insert into dbo.Loans values(12,'Personal Loan','500000',5,24,'Pending');
+insert into dbo.Loans values(8,'Personal Loan','20000',5,24,'Denied');
+insert into dbo.Loans values(1,'Personal Loan','20000',5,24,'Denied');
+insert into dbo.Loans values(4,'Mortgage','500000',5,24,'Approved');
+insert into dbo.Loans values(10,'Mortgage','600000',5,24,'Approved');
+ 
+ 
+/**6. Write SQL Query Retrieve The List Of All Customers.**/
+Select * from dbo.Customers
+
+
+/** 7. Write SQL Query To Find The Total Number Of Loans For Each Customer.**/
+Select COUNT(Loans.LoanID) As No_Of_Loan_By_Customers from Loans
+where CustomerID = 3
+
+/**8 .Write SQL Query To Calculate The Average Loan Amount.**/
+Select AVG(Loans.LoanAmount) As Average_Loan_Collected
+from Loans
+
+
+/**9 .Write A Query To Update The Status Of A Specific Loan.**/
+Update Loans
+Set LoanStatus = 'Denied'
+where LoanID = 7
+
+
+/** 10 .Write A Query To Delete A Customer And All Associated Loans.**/
+Delete Customers
+FROM Customers
+WHERE  Customers.CustomerID = 7
